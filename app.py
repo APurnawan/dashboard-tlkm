@@ -27,6 +27,9 @@ if isinstance(df.columns, pd.MultiIndex):
 
 # Reset index
 df.reset_index(inplace=True)
+
+# Rename kolom pertama menjadi Date
+df.rename(columns={df.columns[0]: 'Date'}, inplace=True)
 # =========================================================
 # ANALISIS
 # =========================================================
