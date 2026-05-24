@@ -110,20 +110,24 @@ volatility = round(df['Volatility'].iloc[-1],4)
 
 labels = df['Date'].dt.strftime('%b').tolist()
 
-close_data = df['Close'].fillna(0).tolist()
+close_data = df['Close'].tolist()
 
 ma7_data = df['MA7'].tolist()
 
 ma30_data = df['MA30'].tolist()
 
-volume_data = df['Volume'].fillna(0).tolist()
+volume_data = df['Volume'].tolist()
 
-volatility_data = df['Volatility'].fillna(0).tolist()
+volatility_data = df['Volatility'].tolist()
 
 # FIX NaN
+close_data = [None if pd.isna(x) else x for x in close_data]
+
 ma7_data = [None if pd.isna(x) else x for x in ma7_data]
 
 ma30_data = [None if pd.isna(x) else x for x in ma30_data]
+
+volume_data = [None if pd.isna(x) else x for x in volume_data]
 
 volatility_data = [
     None if pd.isna(x) else x
