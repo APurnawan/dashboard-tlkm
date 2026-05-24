@@ -2,6 +2,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 import yfinance as yf
 import pandas as pd
+
 # =========================================================
 # CONFIG
 # =========================================================
@@ -21,17 +22,32 @@ df = yf.download(
     auto_adjust=True,
     progress=False
 )
-# Fix MultiIndex
+
+# =========================================================
+# FIX DATAFRAME
+# =========================================================
+
 if isinstance(df.columns, pd.MultiIndex):
     df.columns = df.columns.get_level_values(0)
 
-# Reset index
 df.reset_index(inplace=True)
 
-# Rename kolom pertama menjadi Date
 df.rename(columns={df.columns[0]: 'Date'}, inplace=True)
+
 # =========================================================
 # ANALISIS
+# =========================================================
+
+df['MA7'] = df['Close'].rolling(7).mean()
+
+df['MA30'] = df['Close'].rolling(30).mean()
+
+df['Return'] = df['Close'].pct_change()
+
+df['Volatility'] = df['Return'].rolling(30).std()
+
+# =========================================================
+# METRIC
 # =========================================================
 
 last_close = round(df['Close'].iloc[-1],2)
@@ -58,15 +74,21 @@ high52 = round(df['High'].max(),2)
 
 low52 = round(df['Low'].min(),2)
 
-# =========================================================
-# VOLATILITY
-# =========================================================
-
-df['Return'] = df['Close'].pct_change()
-
-df['Volatility'] = df['Return'].rolling(30).std()
-
 volatility = round(df['Volatility'].iloc[-1],4)
+
+# =========================================================
+# CHART DATA
+# =========================================================
+
+labels = df['Date'].dt.strftime('%b').tolist()
+
+close_data = df['Close'].fillna(0).tolist()
+
+ma7_data = df['MA7'].fillna(0).tolist()
+
+ma30_data = df['MA30'].fillna(0).tolist()
+
+volume_data = df['Volume'].fillna(0).tolist()
 
 # =========================================================
 # LOAD HTML
@@ -77,7 +99,7 @@ with open("template.html","r",encoding="utf-8") as f:
     html = f.read()
 
 # =========================================================
-# REPLACE PLACEHOLDER
+# REPLACE TEXT
 # =========================================================
 
 html = html.replace("{{last_close}}", str(last_close))
@@ -103,56 +125,25 @@ html = html.replace("{{low52}}", str(low52))
 html = html.replace("{{volatility}}", str(volatility))
 
 # =========================================================
-# DISPLAY HTML
-# =========================================================
-# =========================================================
-# CHART DATA
-# =========================================================
-
-df['MA7'] = df['Close'].rolling(7).mean()
-
-df['MA30'] = df['Close'].rolling(30).mean()
-
-labels = df['Date'].dt.strftime('%b').tolist()
-
-close_data = df['Close'].fillna(0).tolist()
-
-ma7_data = df['MA7'].fillna(0).tolist()
-
-ma30_data = df['MA30'].fillna(0).tolist()
-
-volume_data = df['Volume'].fillna(0).tolist()
-
-# =========================================================
 # REPLACE CHART DATA
 # =========================================================
 
-html = html.replace(
-    "{{labels}}",
-    str(labels)
-)
+html = html.replace("{{labels}}", str(labels))
 
-html = html.replace(
-    "{{close_data}}",
-    str(close_data)
-)
+html = html.replace("{{close_data}}", str(close_data))
 
-html = html.replace(
-    "{{ma7_data}}",
-    str(ma7_data)
-)
+html = html.replace("{{ma7_data}}", str(ma7_data))
 
-html = html.replace(
-    "{{ma30_data}}",
-    str(ma30_data)
-)
+html = html.replace("{{ma30_data}}", str(ma30_data))
 
-html = html.replace(
-    "{{volume_data}}",
-    str(volume_data)
-)
+html = html.replace("{{volume_data}}", str(volume_data))
+
+# =========================================================
+# DISPLAY HTML
+# =========================================================
+
 components.html(
     html,
-    height=950,
+    height=1000,
     scrolling=False
 )
