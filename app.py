@@ -118,39 +118,40 @@ df['Volatility'] = (
 )
 
 # =========================================================
-# BUY SELL SIGNAL
+# SIGNAL ANALYSIS
 # =========================================================
 
-df['Signal'] = np.where(
-    df['MA7'] > df['MA30'],
-    'BUY',
-    'SELL'
-)
+ma7_last = df['MA7'].iloc[-1]
 
-latest_signal = df['Signal'].iloc[-1]
+ma30_last = df['MA30'].iloc[-1]
+
+# Return berdasarkan periode
+price_return = pct
+
 # =========================================================
-# SIGNAL STRENGTH
+# SIGNAL LOGIC
 # =========================================================
 
-ma_gap = abs(
-    df['MA7'].iloc[-1] -
-    df['MA30'].iloc[-1]
-)
+# BULLISH
+if ma7_last > ma30_last and price_return > 0:
 
-signal_strength = min(
-    int(ma_gap / 5),
-    100
-)
+    latest_signal = "BULLISH"
 
-# BUY SELL SCORE
+    sentiment_score = 78
 
-if latest_signal == 'BUY':
+# BEARISH
+elif ma7_last < ma30_last and price_return < 0:
 
-    sentiment_score = 50 + signal_strength
+    latest_signal = "BEARISH"
 
+    sentiment_score = 25
+
+# NEUTRAL
 else:
 
-    sentiment_score = 50 - signal_strength
+    latest_signal = "NEUTRAL"
+
+    sentiment_score = 50
 # =========================================================
 # METRIC ANALYSIS
 # =========================================================
