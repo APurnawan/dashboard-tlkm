@@ -128,7 +128,29 @@ df['Signal'] = np.where(
 )
 
 latest_signal = df['Signal'].iloc[-1]
+# =========================================================
+# SIGNAL STRENGTH
+# =========================================================
 
+ma_gap = abs(
+    df['MA7'].iloc[-1] -
+    df['MA30'].iloc[-1]
+)
+
+signal_strength = min(
+    int(ma_gap / 5),
+    100
+)
+
+# BUY SELL SCORE
+
+if latest_signal == 'BUY':
+
+    sentiment_score = 50 + signal_strength
+
+else:
+
+    sentiment_score = 50 - signal_strength
 # =========================================================
 # METRIC ANALYSIS
 # =========================================================
@@ -261,6 +283,10 @@ html = html.replace("{{signal}}", latest_signal)
 
 html = html.replace("{{insight}}", insight)
 
+html = html.replace(
+    "{{sentiment_score}}",
+    str(sentiment_score)
+)
 # =========================================================
 # REPLACE CHART DATA
 # =========================================================
