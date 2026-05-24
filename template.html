@@ -30,13 +30,16 @@ body{
     background:#050f1f;
     font-family:'Segoe UI',sans-serif;
     color:white;
-    padding:20px;
+    padding:18px;
+    overflow:hidden;
 }
+
+/* DASHBOARD */
 
 .dashboard{
     background:linear-gradient(145deg,#071424,#0b1d36);
     border-radius:22px;
-    padding:20px;
+    padding:18px;
     box-shadow:0 0 40px rgba(0,0,0,0.45);
 }
 
@@ -46,7 +49,7 @@ body{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:20px;
+    margin-bottom:18px;
 }
 
 .dashboard-title{
@@ -56,8 +59,9 @@ body{
 }
 
 .dashboard-title h1{
-    font-size:32px;
+    font-size:28px;
     font-weight:700;
+    margin:0;
 }
 
 .header-right{
@@ -80,18 +84,18 @@ body{
     background:rgba(13,25,47,0.95);
     border:1px solid rgba(255,255,255,0.05);
     border-radius:18px;
-    padding:16px;
+    padding:15px;
     box-shadow:0 0 18px rgba(0,0,0,0.25);
 }
 
 .card-title-small{
     color:#9fb2cc;
-    font-size:14px;
-    margin-bottom:10px;
+    font-size:13px;
+    margin-bottom:8px;
 }
 
 .big-number{
-    font-size:34px;
+    font-size:30px;
     font-weight:700;
     line-height:1;
 }
@@ -111,11 +115,11 @@ body{
 /* CHART */
 
 .chart-container{
-    height:320px;
+    height:270px;
 }
 
 .volume-container{
-    height:155px;
+    height:120px;
 }
 
 /* RIGHT SIDE */
@@ -123,7 +127,7 @@ body{
 .right-side{
     display:flex;
     flex-direction:column;
-    gap:16px;
+    gap:14px;
 }
 
 /* SUMMARY */
@@ -131,7 +135,7 @@ body{
 .summary-item{
     display:flex;
     justify-content:space-between;
-    margin-bottom:10px;
+    margin-bottom:8px;
     font-size:14px;
     color:#d4dce7;
 }
@@ -143,8 +147,8 @@ body{
 }
 
 .gauge{
-    width:150px;
-    height:150px;
+    width:130px;
+    height:130px;
     margin:auto;
     border-radius:50%;
     background:conic-gradient(
@@ -158,14 +162,14 @@ body{
 .gauge::before{
     content:'';
     position:absolute;
-    inset:15px;
+    inset:14px;
     background:#081321;
     border-radius:50%;
 }
 
 .needle{
     position:absolute;
-    width:60px;
+    width:52px;
     height:4px;
     background:white;
     top:50%;
@@ -187,13 +191,13 @@ body{
 }
 
 .gauge-content h3{
-    font-size:24px;
+    font-size:22px;
     margin:0;
 }
 
 .gauge-content p{
     margin:0;
-    font-size:14px;
+    font-size:13px;
 }
 
 .mini-chart{
@@ -203,6 +207,10 @@ body{
 /* RESPONSIVE */
 
 @media(max-width:992px){
+
+    body{
+        overflow:auto;
+    }
 
     .dashboard-header{
         flex-direction:column;
@@ -230,33 +238,33 @@ body{
 
 <div class="dashboard-header">
 
-    <div class="dashboard-title">
+<div class="dashboard-title">
 
-        <i class="fa-solid fa-chart-line fa-2x"></i>
+<i class="fa-solid fa-chart-line fa-2x"></i>
 
-        <h1>Dashboard Analisis Saham TLKM</h1>
+<h1>Dashboard Analisis Saham TLKM</h1>
 
-    </div>
+</div>
 
-    <div class="header-right">
+<div class="header-right">
 
-        <span>Periode</span>
+<span>Periode</span>
 
-        <select class="period-select">
+<select class="period-select">
 
-            <option>1 Tahun</option>
-            <option>6 Bulan</option>
-            <option>3 Bulan</option>
+<option>1 Tahun</option>
+<option>6 Bulan</option>
+<option>3 Bulan</option>
 
-        </select>
+</select>
 
-    </div>
+</div>
 
 </div>
 
 <!-- CONTENT -->
 
-<div class="row g-4">
+<div class="row g-3">
 
 <!-- LEFT -->
 
@@ -264,7 +272,9 @@ body{
 
 <!-- TOP CARDS -->
 
-<div class="row g-4 mb-4">
+<div class="row g-3 mb-3">
+
+<!-- HARGA -->
 
 <div class="col-md-4">
 
@@ -286,6 +296,8 @@ Harga Terakhir
 
 </div>
 
+<!-- PERSENTASE -->
+
 <div class="col-md-4">
 
 <div class="card-custom">
@@ -305,6 +317,8 @@ Perubahan Hari Ini
 </div>
 
 </div>
+
+<!-- VOLUME -->
 
 <div class="col-md-4">
 
@@ -330,10 +344,10 @@ Saham
 
 <!-- PRICE CHART -->
 
-<div class="card-custom mb-4">
+<div class="card-custom mb-3">
 
 <h5 class="mb-3">
-Pergerakan Harga
+Pergerakan Harga Saham
 </h5>
 
 <div class="chart-container">
@@ -349,7 +363,7 @@ Pergerakan Harga
 <div class="card-custom">
 
 <h6 class="mb-3">
-Volume Saham
+Volume Trading
 </h6>
 
 <div class="volume-container">
@@ -372,7 +386,7 @@ Volume Saham
 
 <div class="card-custom">
 
-<h5 class="mb-4">
+<h5 class="mb-3">
 Ringkasan Harga
 </h5>
 
@@ -412,8 +426,8 @@ Ringkasan Harga
 
 <div class="card-custom sentiment-box">
 
-<h5 class="mb-4">
-Indikator Sentimen
+<h5 class="mb-3">
+Signal Analisis
 </h5>
 
 <div class="gauge">
@@ -422,12 +436,12 @@ Indikator Sentimen
 
 <div class="gauge-content">
 
-<h3 class="green">
-BULLISH
+<h3 id="signalText">
+{{signal}}
 </h3>
 
 <p>
-78 / 100
+Moving Average Analysis
 </p>
 
 </div>
@@ -438,7 +452,7 @@ BULLISH
 
 <!-- VOLATILITY -->
 
-<div class="card-custom py-3">
+<div class="card-custom">
 
 <h5>
 Volatilitas (30 Hari)
@@ -453,6 +467,22 @@ Volatilitas (30 Hari)
 <canvas id="miniChart"></canvas>
 
 </div>
+
+</div>
+
+<!-- INSIGHT -->
+
+<div class="card-custom">
+
+<h5 class="mb-3">
+Insight Analisis
+</h5>
+
+<p class="gray" style="font-size:13px; line-height:1.7;">
+
+{{insight}}
+
+</p>
 
 </div>
 
@@ -477,7 +507,7 @@ yfinance
 </div>
 
 <div class="gray">
-Real-time
+Realtime
 </div>
 
 </div>
@@ -496,7 +526,25 @@ Real-time
 
 <script>
 
-/* PRICE CHART */
+/* =========================
+   SIGNAL COLOR
+========================= */
+
+const signalText = document.getElementById('signalText');
+
+if(signalText.innerText === 'BUY'){
+
+    signalText.style.color = '#22c55e';
+
+}else{
+
+    signalText.style.color = '#ef4444';
+
+}
+
+/* =========================
+   PRICE CHART
+========================= */
 
 const priceChart = document.getElementById('priceChart');
 
@@ -574,12 +622,20 @@ new Chart(priceChart, {
             x:{
                 ticks:{
                     color:'#cbd5e1'
+                },
+
+                grid:{
+                    color:'rgba(255,255,255,0.05)'
                 }
             },
 
             y:{
                 ticks:{
                     color:'#cbd5e1'
+                },
+
+                grid:{
+                    color:'rgba(255,255,255,0.05)'
                 }
             }
 
@@ -589,7 +645,9 @@ new Chart(priceChart, {
 
 });
 
-/* VOLUME CHART */
+/* =========================
+   VOLUME CHART
+========================= */
 
 const volumeChart = document.getElementById('volumeChart');
 
@@ -639,7 +697,9 @@ new Chart(volumeChart, {
 
 });
 
-/* MINI CHART */
+/* =========================
+   VOLATILITY MINI CHART
+========================= */
 
 const miniChart = document.getElementById('miniChart');
 
@@ -653,7 +713,7 @@ new Chart(miniChart, {
 
         datasets:[{
 
-            data: {{ma7_data}},
+            data: {{volatility_data}},
 
             borderColor:'#22c55e',
 
@@ -661,7 +721,9 @@ new Chart(miniChart, {
 
             tension:0.4,
 
-            pointRadius:0
+            pointRadius:0,
+
+            fill:false
         }]
     },
 
