@@ -23,7 +23,7 @@ st.set_page_config(
 
 df = yf.download(
     'TLKM.JK',
-    selected_period = "1y",
+    selected_period = '1y',
     auto_adjust=True,
     progress=False
 )
