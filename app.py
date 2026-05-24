@@ -2,18 +2,20 @@ import streamlit as st
 import streamlit.components.v1 as components
 import yfinance as yf
 import pandas as pd
+import numpy as np
 
 # =========================================================
-# CONFIG
+# CONFIG DASHBOARD
 # =========================================================
 
 st.set_page_config(
-    page_title="Dashboard TLKM",
+    page_title="Dashboard Analisis Saham TLKM",
     layout="wide"
 )
 
 # =========================================================
-# DOWNLOAD DATA
+# DATA COLLECTION
+# Mengambil data saham TLKM dari Yahoo Finance
 # =========================================================
 
 df = yf.download(
@@ -24,39 +26,65 @@ df = yf.download(
 )
 
 # =========================================================
-# FIX DATAFRAME
+# DATA CLEANING
+# Membersihkan struktur dataframe
 # =========================================================
 
+# Fix MultiIndex
 if isinstance(df.columns, pd.MultiIndex):
     df.columns = df.columns.get_level_values(0)
 
+# Reset index
 df.reset_index(inplace=True)
 
+# Rename tanggal
 df.rename(columns={df.columns[0]: 'Date'}, inplace=True)
 
+# Hapus missing value
+df.dropna(inplace=True)
+
+# Hapus duplicate
+df.drop_duplicates(inplace=True)
+
 # =========================================================
-# ANALISIS
+# FEATURE ENGINEERING
+# Membuat indikator analisis saham
 # =========================================================
 
+# Return Harian
+df['Return'] = df['Close'].pct_change()
+
+# Moving Average
 df['MA7'] = df['Close'].rolling(7).mean()
 
 df['MA30'] = df['Close'].rolling(30).mean()
 
-df['Return'] = df['Close'].pct_change()
-
+# Volatility
 df['Volatility'] = df['Return'].rolling(30).std()
 
 # =========================================================
-# METRIC
+# BUY SELL SIGNAL
+# =========================================================
+
+df['Signal'] = np.where(
+    df['MA7'] > df['MA30'],
+    'BUY',
+    'SELL'
+)
+
+latest_signal = df['Signal'].iloc[-1]
+
+# =========================================================
+# METRIC ANALYSIS
 # =========================================================
 
 last_close = round(df['Close'].iloc[-1],2)
 
 prev_close = round(df['Close'].iloc[-2],2)
 
-change_value = round(last_close-prev_close,2)
+change_value = round(last_close - prev_close,2)
 
-pct = round((change_value/prev_close)*100,2)
+pct = round((change_value / prev_close) * 100,2)
 
 change = f"{change_value} ({pct}%)"
 
@@ -90,8 +118,27 @@ ma30_data = df['MA30'].fillna(0).tolist()
 
 volume_data = df['Volume'].fillna(0).tolist()
 
+volatility_data = df['Volatility'].fillna(0).tolist()
+
 # =========================================================
-# LOAD HTML
+# INSIGHT ANALYSIS
+# =========================================================
+
+if latest_signal == 'BUY':
+    insight = """
+    Tren saham TLKM saat ini menunjukkan sinyal bullish.
+    Moving Average 7 hari berada di atas MA30 yang
+    mengindikasikan potensi kenaikan harga.
+    """
+else:
+    insight = """
+    Tren saham TLKM saat ini menunjukkan sinyal bearish.
+    Moving Average 7 hari berada di bawah MA30 yang
+    mengindikasikan tekanan penurunan harga.
+    """
+
+# =========================================================
+# LOAD HTML TEMPLATE
 # =========================================================
 
 with open("template.html","r",encoding="utf-8") as f:
@@ -99,7 +146,7 @@ with open("template.html","r",encoding="utf-8") as f:
     html = f.read()
 
 # =========================================================
-# REPLACE TEXT
+# REPLACE METRIC TEXT
 # =========================================================
 
 html = html.replace("{{last_close}}", str(last_close))
@@ -124,6 +171,10 @@ html = html.replace("{{low52}}", str(low52))
 
 html = html.replace("{{volatility}}", str(volatility))
 
+html = html.replace("{{signal}}", latest_signal)
+
+html = html.replace("{{insight}}", insight)
+
 # =========================================================
 # REPLACE CHART DATA
 # =========================================================
@@ -138,8 +189,10 @@ html = html.replace("{{ma30_data}}", str(ma30_data))
 
 html = html.replace("{{volume_data}}", str(volume_data))
 
+html = html.replace("{{volatility_data}}", str(volatility_data))
+
 # =========================================================
-# DISPLAY HTML
+# DISPLAY DASHBOARD
 # =========================================================
 
 components.html(
