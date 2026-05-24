@@ -1,5 +1,3 @@
-%%writefile app.py
-
 # =========================================================
 # DASHBOARD ANALISIS SAHAM TLKM
 # PREMIUM FINTECH VERSION
