@@ -87,7 +87,20 @@ footer {
     color: #ef4444;
     font-size: 18px;
 }
+/* Metric Streamlit */
 
+[data-testid="stMetric"] {
+
+    background: linear-gradient(145deg, #111827, #0f172a);
+
+    border: 1px solid rgba(255,255,255,0.05);
+
+    padding: 15px;
+
+    border-radius: 15px;
+
+    box-shadow: 0px 0px 15px rgba(0,255,255,0.05);
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -212,23 +225,11 @@ low_price = round(df['Low'].iloc[-1], 2)
 
 with col1:
 
-    st.markdown(f"""
-    <div class="card">
-
-        <div class="metric-title">
-        Harga Terakhir
-        </div>
-
-        <div class="metric-value">
-        {last_close}
-        </div>
-
-        <div class="metric-red">
-        {change} ({pct}%)
-        </div>
-
-    </div>
-    """, unsafe_allow_html=True)
+    st.metric(
+        label="Harga Terakhir",
+        value=f"{last_close}",
+        delta=f"{change} ({pct}%)"
+    )
 
 # =========================================================
 # CARD 2
@@ -236,28 +237,11 @@ with col1:
 
 with col2:
 
-    warna = "metric-green"
-
-    if change < 0:
-        warna = "metric-red"
-
-    st.markdown(f"""
-    <div class="card">
-
-        <div class="metric-title">
-        Perubahan Hari Ini
-        </div>
-
-        <div class="metric-value">
-        {pct}%
-        </div>
-
-        <div class="{warna}">
-        {change}
-        </div>
-
-    </div>
-    """, unsafe_allow_html=True)
+    st.metric(
+        label="Perubahan Hari Ini",
+        value=f"{pct}%",
+        delta=f"{change}"
+    )
 
 # =========================================================
 # CARD 3
@@ -265,19 +249,10 @@ with col2:
 
 with col3:
 
-    st.markdown(f"""
-    <div class="card">
-
-        <div class="metric-title">
-        Volume Trading
-        </div>
-
-        <div class="metric-value">
-        {volume:,}
-        </div>
-
-    </div>
-    """, unsafe_allow_html=True)
+    st.metric(
+        label="Volume Trading",
+        value=f"{volume:,}"
+    )
 
 # =========================================================
 # CARD 4
@@ -285,36 +260,20 @@ with col3:
 
 with col4:
 
-    st.markdown(f"""
-    <div class="card">
+    st.metric(
+        label="Open",
+        value=f"{open_price}"
+    )
 
-        <div class="metric-title">
-        Ringkasan Harga
-        </div>
+    st.metric(
+        label="High",
+        value=f"{high_price}"
+    )
 
-        <br>
-
-        Open : {open_price}
-
-        <br><br>
-
-        High : {high_price}
-
-        <br><br>
-
-        Low : {low_price}
-
-        <br><br>
-
-        52W High : {high52}
-
-        <br><br>
-
-        52W Low : {low52}
-
-    </div>
-    """, unsafe_allow_html=True)
-
+    st.metric(
+        label="Low",
+        value=f"{low_price}"
+    )
 # =========================================================
 # MAIN LAYOUT
 # =========================================================
