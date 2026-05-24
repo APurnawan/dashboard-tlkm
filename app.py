@@ -58,7 +58,6 @@ st.session_state["period"] = selected_period
 # DOWNLOAD DATA
 # =========================================================
 
-@st.cache_data(ttl=1)
 def load_data(period):
 
     df = yf.download(
@@ -110,7 +109,13 @@ df['MA7'] = df['Close'].rolling(7).mean()
 df['MA30'] = df['Close'].rolling(30).mean()
 
 # Volatility
-df['Volatility'] = df['Return'].rolling(30).std()
+window_size = min(30, len(df))
+
+df['Volatility'] = (
+    df['Return']
+    .rolling(window_size)
+    .std()
+)
 
 # =========================================================
 # BUY SELL SIGNAL
@@ -152,7 +157,16 @@ high52 = round(df['High'].max(),2)
 
 low52 = round(df['Low'].min(),2)
 
-volatility = round(df['Volatility'].iloc[-1],4)
+if pd.isna(df['Volatility'].iloc[-1]):
+
+    volatility = 0
+
+else:
+
+    volatility = round(
+        df['Volatility'].iloc[-1],
+        4
+    )
 
 # =========================================================
 # CHART DATA
