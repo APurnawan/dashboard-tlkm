@@ -3,7 +3,7 @@ import streamlit.components.v1 as components
 import yfinance as yf
 import pandas as pd
 import numpy as np
-
+import json
 # =========================================================
 # CONFIG DASHBOARD
 # =========================================================
@@ -192,18 +192,37 @@ html = html.replace("{{insight}}", insight)
 # REPLACE CHART DATA
 # =========================================================
 
-html = html.replace("{{labels}}", str(labels))
+import json
 
-html = html.replace("{{close_data}}", str(close_data))
+html = html.replace(
+    "{{labels}}",
+    json.dumps(labels)
+)
 
-html = html.replace("{{ma7_data}}", str(ma7_data))
+html = html.replace(
+    "{{close_data}}",
+    json.dumps(close_data)
+)
 
-html = html.replace("{{ma30_data}}", str(ma30_data))
+html = html.replace(
+    "{{ma7_data}}",
+    json.dumps(ma7_data)
+)
 
-html = html.replace("{{volume_data}}", str(volume_data))
+html = html.replace(
+    "{{ma30_data}}",
+    json.dumps(ma30_data)
+)
 
-html = html.replace("{{volatility_data}}", str(volatility_data))
+html = html.replace(
+    "{{volume_data}}",
+    json.dumps(volume_data)
+)
 
+html = html.replace(
+    "{{volatility_data}}",
+    json.dumps(volatility_data)
+)
 # =========================================================
 # DISPLAY DASHBOARD
 # =========================================================
