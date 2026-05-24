@@ -3,9 +3,9 @@
 
 <head>
 
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Dashboard Analisis Saham TLKM</title>
 
@@ -33,10 +33,6 @@ body{
     padding:20px;
 }
 
-/* =========================
-   MAIN DASHBOARD
-========================= */
-
 .dashboard{
     background:linear-gradient(145deg,#071424,#0b1d36);
     border-radius:22px;
@@ -44,9 +40,7 @@ body{
     box-shadow:0 0 40px rgba(0,0,0,0.45);
 }
 
-/* =========================
-   HEADER
-========================= */
+/* HEADER */
 
 .dashboard-header{
     display:flex;
@@ -63,7 +57,6 @@ body{
 
 .dashboard-title h1{
     font-size:32px;
-    margin:0;
     font-weight:700;
 }
 
@@ -79,12 +72,9 @@ body{
     color:white;
     padding:10px 15px;
     border-radius:12px;
-    outline:none;
 }
 
-/* =========================
-   CARDS
-========================= */
+/* CARD */
 
 .card-custom{
     background:rgba(13,25,47,0.95);
@@ -118,9 +108,7 @@ body{
     color:#94a3b8;
 }
 
-/* =========================
-   CHART
-========================= */
+/* CHART */
 
 .chart-container{
     height:320px;
@@ -130,9 +118,7 @@ body{
     height:155px;
 }
 
-/* =========================
-   RIGHT SIDE
-========================= */
+/* RIGHT SIDE */
 
 .right-side{
     display:flex;
@@ -140,9 +126,7 @@ body{
     gap:16px;
 }
 
-/* =========================
-   SUMMARY
-========================= */
+/* SUMMARY */
 
 .summary-item{
     display:flex;
@@ -152,9 +136,7 @@ body{
     color:#d4dce7;
 }
 
-/* =========================
-   GAUGE
-========================= */
+/* GAUGE */
 
 .sentiment-box{
     text-align:center;
@@ -214,17 +196,11 @@ body{
     font-size:14px;
 }
 
-/* =========================
-   VOLATILITY
-========================= */
-
 .mini-chart{
     height:45px;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* RESPONSIVE */
 
 @media(max-width:992px){
 
@@ -236,11 +212,6 @@ body{
 
     .chart-container{
         height:250px;
-    }
-
-    .gauge{
-        width:120px;
-        height:120px;
     }
 
 }
@@ -255,265 +226,474 @@ body{
 
 <div class="dashboard">
 
-    <!-- HEADER -->
-    <div class="dashboard-header">
+<!-- HEADER -->
 
-        <div class="dashboard-title">
-            <i class="fa-solid fa-chart-line fa-2x"></i>
-            <h1>Dashboard Analisis Saham TLKM</h1>
-        </div>
+<div class="dashboard-header">
 
-        <div class="header-right">
+    <div class="dashboard-title">
 
-            <span>Periode</span>
+        <i class="fa-solid fa-chart-line fa-2x"></i>
 
-            <select class="period-select">
-                <option>1 Tahun</option>
-                <option>6 Bulan</option>
-                <option>3 Bulan</option>
-            </select>
-
-            <i class="fa-solid fa-rotate-right"></i>
-
-        </div>
+        <h1>Dashboard Analisis Saham TLKM</h1>
 
     </div>
 
-    <!-- CONTENT -->
-    <div class="row g-4">
+    <div class="header-right">
 
-        <!-- LEFT -->
-        <div class="col-lg-9">
+        <span>Periode</span>
 
-            <!-- TOP CARDS -->
-            <div class="row g-4 mb-4">
+        <select class="period-select">
 
-                <!-- Harga -->
-                <div class="col-md-4">
+            <option>1 Tahun</option>
+            <option>6 Bulan</option>
+            <option>3 Bulan</option>
 
-                    <div class="card-custom">
-
-                        <div class="card-title-small">
-                            Harga Terakhir
-                        </div>
-
-                        <div class="big-number">
-                            {{last_close}}
-                        </div>
-
-                        <div class="red mt-2">
-                            {{change}}
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <!-- Perubahan -->
-                <div class="col-md-4">
-
-                    <div class="card-custom">
-
-                        <div class="card-title-small">
-                            Perubahan Hari Ini
-                        </div>
-
-                        <div class="big-number green">
-                            {{pct}}
-                        </div>
-
-                        <div class="green mt-2">
-                            {{change}}
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <!-- Volume -->
-                <div class="col-md-4">
-
-                    <div class="card-custom">
-
-                        <div class="card-title-small">
-                            Volume
-                        </div>
-
-                        <div class="big-number">
-                            {{volume}}
-                        </div>
-
-                        <div class="gray mt-2">
-                            Saham
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- PRICE CHART -->
-            <div class="card-custom mb-4">
-
-                <div class="d-flex justify-content-between align-items-center mb-3">
-
-                    <h5>Pergerakan Harga</h5>
-
-                </div>
-
-                <div class="chart-container">
-
-                    <canvas id="priceChart"></canvas>
-
-                </div>
-
-            </div>
-
-            <!-- VOLUME -->
-            <div class="card-custom">
-
-                <h6 class="mb-3">
-                    Volume (Saham)
-                </h6>
-
-                <div class="volume-container">
-
-                    <canvas id="volumeChart"></canvas>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- RIGHT -->
-        <div class="col-lg-3">
-
-            <div class="right-side">
-
-                <!-- SUMMARY -->
-                <div class="card-custom">
-
-                    <h5 class="mb-4">
-                        Ringkasan Harga
-                    </h5>
-
-                    <div class="summary-item">
-                        <span>Open</span>
-                        <span>{{open}}</span>
-                    </div>
-
-                    <div class="summary-item">
-                        <span>High</span>
-                        <span class="green">{{high}}</span>
-                    </div>
-
-                    <div class="summary-item">
-                        <span>Low</span>
-                        <span>{{low}}</span>
-                    </div>
-
-                    <div class="summary-item">
-                        <span>Close</span>
-                        <span>{{close}}</span>
-                    </div>
-
-                    <div class="summary-item">
-                        <span>52W High</span>
-                        <span class="green">{{high52}}</span>
-                    </div>
-
-                    <div class="summary-item">
-                        <span>52W Low</span>
-                        <span class="red">{{low52}}</span>
-                    </div>
-
-                </div>
-
-                <!-- SENTIMENT -->
-                <div class="card-custom sentiment-box">
-
-                    <h5 class="mb-4">
-                        Indikator Sentimen
-                    </h5>
-
-                    <div class="gauge">
-
-                        <div class="needle"></div>
-
-                        <div class="gauge-content">
-
-                            <h3 class="green">
-                                BULLISH
-                            </h3>
-
-                            <p>
-                                78 / 100
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <!-- VOLATILITY -->
-                <div class="card-custom py-3">
-
-                    <h5>
-                        Volatilitas (30 Hari)
-                    </h5>
-
-                    <div class="big-number mt-2">
-                        {{volatility}}
-                    </div>
-
-                    <div class="mini-chart mt-3">
-
-                        <canvas id="miniChart"></canvas>
-
-                    </div>
-
-                </div>
-
-                <!-- SOURCE -->
-                <div class="card-custom">
-
-                    <h5 class="mb-3">
-                        Sumber Data
-                    </h5>
-
-                    <div class="d-flex justify-content-between align-items-center">
-
-                        <div>
-
-                            <span class="green">
-                                <i class="fa-solid fa-database"></i>
-                            </span>
-
-                            yfinance
-
-                        </div>
-
-                        <div class="gray">
-                            Real-time
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
+        </select>
 
     </div>
 
 </div>
 
+<!-- CONTENT -->
+
+<div class="row g-4">
+
+<!-- LEFT -->
+
+<div class="col-lg-9">
+
+<!-- TOP CARDS -->
+
+<div class="row g-4 mb-4">
+
+<div class="col-md-4">
+
+<div class="card-custom">
+
+<div class="card-title-small">
+Harga Terakhir
 </div>
+
+<div class="big-number">
+{{last_close}}
+</div>
+
+<div class="red mt-2">
+{{change}}
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card-custom">
+
+<div class="card-title-small">
+Perubahan Hari Ini
+</div>
+
+<div class="big-number green">
+{{pct}}
+</div>
+
+<div class="green mt-2">
+{{change}}
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card-custom">
+
+<div class="card-title-small">
+Volume
+</div>
+
+<div class="big-number">
+{{volume}}
+</div>
+
+<div class="gray mt-2">
+Saham
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- PRICE CHART -->
+
+<div class="card-custom mb-4">
+
+<h5 class="mb-3">
+Pergerakan Harga
+</h5>
+
+<div class="chart-container">
+
+<canvas id="priceChart"></canvas>
+
+</div>
+
+</div>
+
+<!-- VOLUME -->
+
+<div class="card-custom">
+
+<h6 class="mb-3">
+Volume Saham
+</h6>
+
+<div class="volume-container">
+
+<canvas id="volumeChart"></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- RIGHT -->
+
+<div class="col-lg-3">
+
+<div class="right-side">
+
+<!-- SUMMARY -->
+
+<div class="card-custom">
+
+<h5 class="mb-4">
+Ringkasan Harga
+</h5>
+
+<div class="summary-item">
+<span>Open</span>
+<span>{{open}}</span>
+</div>
+
+<div class="summary-item">
+<span>High</span>
+<span class="green">{{high}}</span>
+</div>
+
+<div class="summary-item">
+<span>Low</span>
+<span>{{low}}</span>
+</div>
+
+<div class="summary-item">
+<span>Close</span>
+<span>{{close}}</span>
+</div>
+
+<div class="summary-item">
+<span>52W High</span>
+<span class="green">{{high52}}</span>
+</div>
+
+<div class="summary-item">
+<span>52W Low</span>
+<span class="red">{{low52}}</span>
+</div>
+
+</div>
+
+<!-- SENTIMENT -->
+
+<div class="card-custom sentiment-box">
+
+<h5 class="mb-4">
+Indikator Sentimen
+</h5>
+
+<div class="gauge">
+
+<div class="needle"></div>
+
+<div class="gauge-content">
+
+<h3 class="green">
+BULLISH
+</h3>
+
+<p>
+78 / 100
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- VOLATILITY -->
+
+<div class="card-custom py-3">
+
+<h5>
+Volatilitas (30 Hari)
+</h5>
+
+<div class="big-number mt-2">
+{{volatility}}
+</div>
+
+<div class="mini-chart mt-3">
+
+<canvas id="miniChart"></canvas>
+
+</div>
+
+</div>
+
+<!-- SOURCE -->
+
+<div class="card-custom">
+
+<h5 class="mb-3">
+Sumber Data
+</h5>
+
+<div class="d-flex justify-content-between align-items-center">
+
+<div>
+
+<span class="green">
+<i class="fa-solid fa-database"></i>
+</span>
+
+yfinance
+
+</div>
+
+<div class="gray">
+Real-time
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* PRICE CHART */
+
+const priceChart = document.getElementById('priceChart');
+
+new Chart(priceChart, {
+
+    type:'line',
+
+    data:{
+
+        labels: {{labels}},
+
+        datasets:[
+
+            {
+                label:'Harga',
+
+                data: {{close_data}},
+
+                borderColor:'#22c55e',
+
+                tension:0.4,
+
+                borderWidth:2,
+
+                pointRadius:0
+            },
+
+            {
+                label:'MA7',
+
+                data: {{ma7_data}},
+
+                borderColor:'#3b82f6',
+
+                tension:0.4,
+
+                borderWidth:2,
+
+                pointRadius:0
+            },
+
+            {
+                label:'MA30',
+
+                data: {{ma30_data}},
+
+                borderColor:'#f59e0b',
+
+                tension:0.4,
+
+                borderWidth:2,
+
+                pointRadius:0
+            }
+
+        ]
+    },
+
+    options:{
+
+        responsive:true,
+
+        maintainAspectRatio:false,
+
+        plugins:{
+            legend:{
+                labels:{
+                    color:'white'
+                }
+            }
+        },
+
+        scales:{
+
+            x:{
+                ticks:{
+                    color:'#cbd5e1'
+                }
+            },
+
+            y:{
+                ticks:{
+                    color:'#cbd5e1'
+                }
+            }
+
+        }
+
+    }
+
+});
+
+/* VOLUME CHART */
+
+const volumeChart = document.getElementById('volumeChart');
+
+new Chart(volumeChart, {
+
+    type:'bar',
+
+    data:{
+
+        labels: {{labels}},
+
+        datasets:[{
+
+            data: {{volume_data}},
+
+            backgroundColor:'#06b6d4',
+
+            borderRadius:4
+        }]
+    },
+
+    options:{
+
+        responsive:true,
+
+        maintainAspectRatio:false,
+
+        plugins:{
+            legend:{
+                display:false
+            }
+        },
+
+        scales:{
+
+            x:{
+                display:false
+            },
+
+            y:{
+                display:false
+            }
+
+        }
+
+    }
+
+});
+
+/* MINI CHART */
+
+const miniChart = document.getElementById('miniChart');
+
+new Chart(miniChart, {
+
+    type:'line',
+
+    data:{
+
+        labels: {{labels}},
+
+        datasets:[{
+
+            data: {{ma7_data}},
+
+            borderColor:'#22c55e',
+
+            borderWidth:2,
+
+            tension:0.4,
+
+            pointRadius:0
+        }]
+    },
+
+    options:{
+
+        responsive:true,
+
+        maintainAspectRatio:false,
+
+        plugins:{
+            legend:{
+                display:false
+            }
+        },
+
+        scales:{
+
+            x:{
+                display:false
+            },
+
+            y:{
+                display:false
+            }
+
+        }
+
+    }
+
+});
+
+</script>
 
 </body>
-
 </html>
