@@ -21,17 +21,53 @@ st.set_page_config(
 # PILIH PERIODE
 # =========================================================
 
-df = yf.download(
+period_option = st.selectbox(
 
-    'TLKM.JK',
+    "Pilih Periode",
 
-    period='1y',
+    [
 
-    auto_adjust=True,
+        "1 Tahun",
+        "6 Bulan",
+        "3 Bulan",
+        "1 Bulan"
 
-    progress=False
+    ]
+
 )
 
+period_map = {
+
+    "1 Tahun":"1y",
+    "6 Bulan":"6mo",
+    "3 Bulan":"3mo",
+    "1 Bulan":"1mo"
+
+}
+
+selected_period = period_map[period_option]
+
+# =========================================================
+# DOWNLOAD DATA
+# =========================================================
+
+@st.cache_data(ttl=300)
+def load_data(period):
+
+    df = yf.download(
+
+        'TLKM.JK',
+
+        period=period,
+
+        auto_adjust=True,
+
+        progress=False
+    )
+
+    return df
+
+df = load_data(selected_period)
 # =========================================================
 # DATA CLEANING
 # Membersihkan struktur dataframe
