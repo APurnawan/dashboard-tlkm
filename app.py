@@ -21,7 +21,9 @@ df = yf.download(
     auto_adjust=True,
     progress=False
 )
-
+# Fix MultiIndex
+if isinstance(df.columns, pd.MultiIndex):
+    df.columns = df.columns.get_level_values(0)
 # =========================================================
 # ANALISIS
 # =========================================================
@@ -36,7 +38,7 @@ pct = round((change_value/prev_close)*100,2)
 
 change = f"{change_value} ({pct}%)"
 
-volume = int(df['Volume'].iloc[-1])
+volume = int(float(df['Volume'].iloc[-1]))
 
 open_price = round(df['Open'].iloc[-1],2)
 
