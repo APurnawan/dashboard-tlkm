@@ -17,10 +17,36 @@ st.set_page_config(
 # DATA COLLECTION
 # Mengambil data saham TLKM dari Yahoo Finance
 # =========================================================
+# =========================================================
+# PILIH PERIODE
+# =========================================================
 
+period_option = st.selectbox(
+
+    "Pilih Periode",
+
+    {
+
+        "1 Tahun":"1y",
+        "6 Bulan":"6mo",
+        "3 Bulan":"3mo",
+        "1 Bulan":"1mo"
+
+    }
+
+)
+
+selected_period = {
+
+    "1 Tahun":"1y",
+    "6 Bulan":"6mo",
+    "3 Bulan":"3mo",
+    "1 Bulan":"1mo"
+
+}[period_option]
 df = yf.download(
     'TLKM.JK',
-    period='1y',
+    period=selected_period,
     auto_adjust=True,
     progress=False
 )
