@@ -281,7 +281,6 @@ html = html.replace("{{volatility}}", str(volatility))
 
 html = html.replace("{{signal}}", latest_signal)
 
-html = html.replace("{{insight}}", insight)
 
 html = html.replace(
     "{{sentiment_score}}",
