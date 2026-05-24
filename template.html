@@ -142,62 +142,70 @@ body{
 
 /* GAUGE */
 
-.sentiment-box{
-    text-align:center;
+.gauge-wrapper{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
 }
 
-.gauge{
-    width:130px;
-    height:130px;
-    margin:auto;
-    border-radius:50%;
+.gauge-half{
+    width:180px;
+    height:90px;
+    border-top-left-radius:180px;
+    border-top-right-radius:180px;
+    overflow:hidden;
+    position:relative;
     background:conic-gradient(
-        #ef4444 0deg 60deg,
-        #f59e0b 60deg 120deg,
+        from 180deg,
+        #ff3b30 0deg 60deg,
+        #ffb020 60deg 120deg,
         #22c55e 120deg 180deg
     );
-    position:relative;
 }
 
-.gauge::before{
-    content:'';
+.gauge-mask{
     position:absolute;
-    inset:14px;
+    width:140px;
+    height:70px;
     background:#081321;
-    border-radius:50%;
+    border-top-left-radius:140px;
+    border-top-right-radius:140px;
+    bottom:0;
+    left:20px;
 }
 
 .needle{
-    position:absolute;
-    width:52px;
-    height:4px;
+    width:4px;
+    height:75px;
     background:white;
-    top:50%;
+    position:absolute;
+    bottom:0;
     left:50%;
-    transform-origin:left center;
-    transform:rotate(35deg);
+    transform-origin:bottom center;
+    transform:rotate(-40deg);
     border-radius:10px;
     z-index:10;
 }
 
-.gauge-content{
-    position:absolute;
-    inset:0;
+.gauge-labels{
+    width:180px;
     display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    z-index:11;
+    justify-content:space-between;
+    margin-top:6px;
+    font-size:12px;
+    color:#cbd5e1;
 }
 
-.gauge-content h3{
-    font-size:22px;
-    margin:0;
+.gauge-info{
+    text-align:center;
+    margin-top:12px;
 }
 
-.gauge-content p{
+.gauge-info h3{
+    font-size:32px;
+    font-weight:bold;
     margin:0;
-    font-size:13px;
 }
 
 .mini-chart{
@@ -421,14 +429,32 @@ Ringkasan Harga
 <div class="card-custom sentiment-box">
 
 <h5 class="mb-3">
-Signal Analisis
+Indikator Sentimen
 </h5>
 
-<div class="gauge">
+<div class="gauge-wrapper">
 
-<div class="needle"></div>
+<div class="gauge-half">
 
-<div class="gauge-content">
+<div class="gauge-fill"></div>
+
+<div class="gauge-mask"></div>
+
+<div class="needle" id="needle"></div>
+
+</div>
+
+<div class="gauge-labels">
+
+<span>-100</span>
+
+<span>0</span>
+
+<span>100</span>
+
+</div>
+
+<div class="gauge-info">
 
 <h3 id="signalText">
 {{signal}}
