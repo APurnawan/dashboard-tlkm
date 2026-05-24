@@ -112,9 +112,9 @@ labels = df['Date'].dt.strftime('%b').tolist()
 
 close_data = df['Close'].fillna(0).tolist()
 
-ma7_data = df['MA7'].fillna(0).tolist()
+ma7_data = df['MA7'].tolist()
 
-ma30_data = df['MA30'].fillna(0).tolist()
+ma30_data = df['MA30'].tolist()
 
 volume_data = df['Volume'].fillna(0).tolist()
 
@@ -182,6 +182,10 @@ html = html.replace("{{insight}}", insight)
 html = html.replace("{{labels}}", str(labels))
 
 html = html.replace("{{close_data}}", str(close_data))
+
+ma7_data = [None if pd.isna(x) else x for x in ma7_data]
+
+ma30_data = [None if pd.isna(x) else x for x in ma30_data]
 
 html = html.replace("{{ma7_data}}", str(ma7_data))
 
