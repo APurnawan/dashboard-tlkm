@@ -271,7 +271,12 @@ html = html.replace(
 # =========================================================
 
 components.html(
+
     html,
+
     height=1000,
-    scrolling=False
+
+    scrolling=False,
+
+    key=selected_period
 )
