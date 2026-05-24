@@ -133,29 +133,38 @@ latest_signal = df['Signal'].iloc[-1]
 # METRIC ANALYSIS
 # =========================================================
 
+# Harga terakhir realtime
 last_close = round(df['Close'].iloc[-1],2)
 
-prev_close = round(df['Close'].iloc[-2],2)
+# Harga awal sesuai periode
+first_close = round(df['Close'].iloc[0],2)
 
-change_value = round(last_close - prev_close,2)
+# Perubahan selama periode
+change_value = round(last_close - first_close,2)
 
-pct = round((change_value / prev_close) * 100,2)
+pct = round((change_value / first_close) * 100,2)
 
 change = f"{change_value} ({pct}%)"
 
-volume = int(float(df['Volume'].iloc[-1]))
+# Total volume selama periode
+volume = int(df['Volume'].sum())
 
-open_price = round(df['Open'].iloc[-1],2)
+# Ringkasan harga sesuai periode
+open_price = round(df['Open'].iloc[0],2)
 
-high_price = round(df['High'].iloc[-1],2)
+high_price = round(df['High'].max(),2)
 
-low_price = round(df['Low'].iloc[-1],2)
+low_price = round(df['Low'].min(),2)
 
 close_price = round(df['Close'].iloc[-1],2)
 
 high52 = round(df['High'].max(),2)
 
 low52 = round(df['Low'].min(),2)
+
+# =========================================================
+# VOLATILITY VALUE
+# =========================================================
 
 if pd.isna(df['Volatility'].iloc[-1]):
 
