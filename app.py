@@ -96,28 +96,40 @@ footer {
 # =========================================================
 
 @st.cache_data
-def load_data():
+def load_data(period):
 
-    df = yf.download(
-        'TLKM.JK',
-        start='2023-01-01',
-        end='2025-01-01'
-    )
+    try:
 
-    # Fix MultiIndex
-    if isinstance(df.columns, pd.MultiIndex):
-        df.columns = df.columns.get_level_values(0)
+        # Download data saham
+        df = yf.download(
+            'TLKM.JK',
+            period=period,
+            auto_adjust=True,
+            progress=False
+        )
 
-    # Reset Index
-    df.reset_index(inplace=True)
+        # Validasi dataframe kosong
+        if df.empty:
+            return None
 
-    # Rename kolom date
-    if 'Date' not in df.columns:
-        df.rename(columns={df.columns[0]:'Date'}, inplace=True)
+        # Fix MultiIndex
+        if isinstance(df.columns, pd.MultiIndex):
+            df.columns = df.columns.get_level_values(0)
 
-    return df
+        # Reset index
+        df.reset_index(inplace=True)
 
-df = load_data()
+        # Rename kolom Date jika belum ada
+        if 'Date' not in df.columns:
+            df.rename(columns={df.columns[0]: 'Date'}, inplace=True)
+
+        return df
+
+    except Exception as e:
+
+        st.error(f"Error download data: {e}")
+
+        return None
 
 # =========================================================
 # ANALISIS DATA
