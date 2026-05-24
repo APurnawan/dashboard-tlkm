@@ -117,6 +117,40 @@ df['Volatility'] = (
     .std()
 )
 
+
+# =========================================================
+# METRIC ANALYSIS
+# =========================================================
+
+# Harga terakhir realtime
+last_close = round(df['Close'].iloc[-1],2)
+
+# Harga awal sesuai periode
+first_close = round(df['Close'].iloc[0],2)
+
+# Perubahan selama periode
+change_value = round(last_close - first_close,2)
+
+pct = round((change_value / first_close) * 100,2)
+
+change = f"{change_value} ({pct}%)"
+
+# Total volume selama periode
+volume = int(df['Volume'].sum())
+
+# Ringkasan harga sesuai periode
+open_price = round(df['Open'].iloc[0],2)
+
+high_price = round(df['High'].max(),2)
+
+low_price = round(df['Low'].min(),2)
+
+close_price = round(df['Close'].iloc[-1],2)
+
+high52 = round(df['High'].max(),2)
+
+low52 = round(df['Low'].min(),2)
+
 # =========================================================
 # SIGNAL ANALYSIS
 # =========================================================
@@ -153,39 +187,6 @@ else:
 
     sentiment_score = 50
 # =========================================================
-# METRIC ANALYSIS
-# =========================================================
-
-# Harga terakhir realtime
-last_close = round(df['Close'].iloc[-1],2)
-
-# Harga awal sesuai periode
-first_close = round(df['Close'].iloc[0],2)
-
-# Perubahan selama periode
-change_value = round(last_close - first_close,2)
-
-pct = round((change_value / first_close) * 100,2)
-
-change = f"{change_value} ({pct}%)"
-
-# Total volume selama periode
-volume = int(df['Volume'].sum())
-
-# Ringkasan harga sesuai periode
-open_price = round(df['Open'].iloc[0],2)
-
-high_price = round(df['High'].max(),2)
-
-low_price = round(df['Low'].min(),2)
-
-close_price = round(df['Close'].iloc[-1],2)
-
-high52 = round(df['High'].max(),2)
-
-low52 = round(df['Low'].min(),2)
-
-# =========================================================
 # VOLATILITY VALUE
 # =========================================================
 
@@ -199,7 +200,41 @@ else:
         df['Volatility'].iloc[-1],
         4
     )
+# =========================================================
+# SIGNAL ANALYSIS
+# =========================================================
 
+ma7_last = df['MA7'].iloc[-1]
+
+ma30_last = df['MA30'].iloc[-1]
+
+# Return berdasarkan periode
+price_return = pct
+
+# =========================================================
+# SIGNAL LOGIC
+# =========================================================
+
+# BULLISH
+if ma7_last > ma30_last and price_return > 0:
+
+    latest_signal = "BULLISH"
+
+    sentiment_score = 78
+
+# BEARISH
+elif ma7_last < ma30_last and price_return < 0:
+
+    latest_signal = "BEARISH"
+
+    sentiment_score = 25
+
+# NEUTRAL
+else:
+
+    latest_signal = "NEUTRAL"
+
+    sentiment_score = 50
 # =========================================================
 # CHART DATA
 # =========================================================
