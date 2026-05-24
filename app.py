@@ -99,7 +99,52 @@ html = html.replace("{{volatility}}", str(volatility))
 # =========================================================
 # DISPLAY HTML
 # =========================================================
+# =========================================================
+# CHART DATA
+# =========================================================
 
+df['MA7'] = df['Close'].rolling(7).mean()
+
+df['MA30'] = df['Close'].rolling(30).mean()
+
+labels = df['Date'].dt.strftime('%b').tolist()
+
+close_data = df['Close'].fillna(0).tolist()
+
+ma7_data = df['MA7'].fillna(0).tolist()
+
+ma30_data = df['MA30'].fillna(0).tolist()
+
+volume_data = df['Volume'].fillna(0).tolist()
+
+# =========================================================
+# REPLACE CHART DATA
+# =========================================================
+
+html = html.replace(
+    "{{labels}}",
+    str(labels)
+)
+
+html = html.replace(
+    "{{close_data}}",
+    str(close_data)
+)
+
+html = html.replace(
+    "{{ma7_data}}",
+    str(ma7_data)
+)
+
+html = html.replace(
+    "{{ma30_data}}",
+    str(ma30_data)
+)
+
+html = html.replace(
+    "{{volume_data}}",
+    str(volume_data)
+)
 components.html(
     html,
     height=950,
