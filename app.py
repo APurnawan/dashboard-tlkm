@@ -21,6 +21,10 @@ st.set_page_config(
 # PILIH PERIODE
 # =========================================================
 
+# =========================================================
+# PILIH PERIODE
+# =========================================================
+
 period_option = st.selectbox(
 
     "Pilih Periode",
@@ -47,11 +51,14 @@ period_map = {
 
 selected_period = period_map[period_option]
 
+# FORCE REFRESH
+st.session_state["period"] = selected_period
+
 # =========================================================
 # DOWNLOAD DATA
 # =========================================================
 
-@st.cache_data(ttl=300)
+@st.cache_data(ttl=1)
 def load_data(period):
 
     df = yf.download(
@@ -271,12 +278,7 @@ html = html.replace(
 # =========================================================
 
 components.html(
-
     html,
-
     height=1000,
-
-    scrolling=False,
-
-    key=selected_period
+    scrolling=False
 )
